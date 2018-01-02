@@ -273,16 +273,14 @@ if __name__ == '__main__':
 
             print('Create a stream')
             twitter_stream = Stream(auth, MyListener(config.save_dir, config.track))
-            # DON'T run this approach async or you'll just create a ton of streams!
+
             print('stream filtering')
             twitter_stream.filter(track=[config.track], languages=["en"])
-
-            print('issue here....!!!')
 
         except IncompleteRead:
             # Oh well, reconnect and keep trucking
             print('IncompleteRead ----------')
-            time.sleep(5)
+            time.sleep(4)
             continue
         except KeyboardInterrupt:
             # Or however you want to exit this loop

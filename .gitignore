@@ -1,0 +1,7 @@
+backup/
+data/
+.ipynb_checkpoints/
+pickled_algos/old/
+__pycache__
+sample_tweet.txt
+twitter-live-out.txt

@@ -22,7 +22,6 @@ import re
 
 
 def set_topic(tweet):
-
     text = tweet['text']
     l_tags = tweet['entities']['hashtags']
     tags = []
@@ -32,11 +31,10 @@ def set_topic(tweet):
 
     # hash tags
     hashtags = ' '.join(tags)
-    print('hashtags: ', hashtags)
+    #print('hashtags: ', hashtags)
 
     score_t1 = calc_word_score(text, hashtags, keywords1)
     score_t2 = calc_word_score(text, hashtags, keywords2)
-
     #print('score t1: ', score_t1)
     #print('score t2: ', score_t2)
 
@@ -121,6 +119,7 @@ def adjustSentiment(v):
 
 
 def format_filename(fname):
+    fname += "-" + str(file_part).zfill(5)
     return ''.join(convert_valid(one_char) for one_char in fname)
 
 #-------------------------------------------------------------------------------
@@ -140,13 +139,30 @@ class MyListener(StreamListener):
     """Custom StreamListener for streaming data."""
 
     def __init__(self, data_dir, query):
+        print('Self __init__')
         query_fname = format_filename(query)
+        self.file_part = 1
+        self.total_msg = 0
+        self.msg_num = 0
+        self.file_limit = 5000
         self.outfile = "%s/stream_%s.json" % (data_dir, query_fname)
 
     def on_data(self, data):
 
         try:
+
+            self.total_msg += 1
+            self.msg_num += 1
+
+            print('Counter: {} | {}'.format(self.total_msg, self.msg_num))
+            if self.msg_num > self.file_limit:
+                self.file_part += 1
+                self.msg_num = 1
+                tmpfilename = self.outfile[:-9]
+                self.outfile = tmpfilename + str(self.file_part).zfill(5) + '.json'
+
             # handle data here
+
             checktext = '{"limit":{"track":'
             if data[:20].count(checktext) > 0:
                 print('ignored limit notice')
@@ -158,19 +174,19 @@ class MyListener(StreamListener):
             print('text: ', text)
             clean = clean_text(text)
             clean = clean.strip()
-            #print('clean text: ', clean)
 
             sent_val = calc_sentiment(clean, mnb)
             sent_val = float("{0:.2f}".format(sent_val))
-            side = set_topic(tweet)
-            print('side: ', side)
-            print('senti_value: ', sent_val)
+            #print('senti_value: ', sent_val)
+            if no_of_topic == 1:
+                side = -1
+            else:
+                side = set_topic(tweet)
+                #print('side: ', side)
 
             #tweet['clean'] = clean
             tweet['senti_value'] = sent_val
             tweet['side'] = side
-
-            #print('side: {} with sentiment value of {}'.format(side, sent_val))
 
             ret = os.access(self.outfile, os.W_OK)
             if not ret:
@@ -251,19 +267,23 @@ if __name__ == '__main__':
     open_file.close()
 
     # get configurations
-
+    no_of_topic = config.no_of_topic
     theme = config.theme
     topic1 = config.topic1
     topic2 = config.topic2
+    topic3 = config.topic3
     keywords1 = config.keywords1
     keywords2 = config.keywords2
+    keywords3 = config.keywords3
     SENTI_OUT_FILE = config.senti_out_file
 
     print('Initialize: Twitter auth handler')
-
     auth = OAuthHandler(config.consumer_key, config.consumer_secret)
     auth.set_access_token(config.access_token, config.access_secret)
     #api = tweepy.API(auth)
+
+    # file part number & msg_count
+    file_part = 1
 
     print('Initialize: Start tracking')
 

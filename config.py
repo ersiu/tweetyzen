@@ -7,14 +7,17 @@ mode = 'track'
 save_dir = '.\data'
 senti_out_file = 'twitter-live-out.txt'
 
-
-theme = 'Liverpool vs Burnley'
+# -------------------------------------------------------------------------------------------
+no_of_topic = 2
+theme = 'Liverpool vs ManCity (14 Jan 2018)'
 topic1 = 'Liverpool'
-topic2 = 'Burnley'
-track = 'liverpool, liverpoolfc, '
-keywords1 = 'liverpool, lfc, liverpoolfc, ynwa, salah, firmino, klopp, coutinho, hendo'
-keywords2 = 'bournemouth, afcbournemouth, afcb, afc, defoe'
-
+topic2 = 'ManCity'
+topic3 = ''
+track = 'liverpool, liverpoolfc, LIVMCI, mancity, lfc, mcfc'
+keywords1 = 'liverpool, reds, lfc, liv, liverpoolfc, ynwa, salah, firmino, klopp, coutinho, mane, VVD'
+keywords2 = 'Mancity, city, mcity, MUNMCI, Silva, blue, Pep, manchester, MCFC'
+keywords3 = ''
+# -------------------------------------------------------------------------------------------
 
 
 # theme = 'Trump vs Star Wars'

@@ -1,2 +1,0 @@
-python TwitterStreamer.py 
-pause

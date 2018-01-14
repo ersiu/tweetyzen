@@ -1,0 +1,2 @@
+python zenmain.py 
+pause

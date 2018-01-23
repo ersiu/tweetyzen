@@ -1,3 +1,8 @@
+import configparser
+Config = configparser.ConfigParser()
+
+
+
 firstscore = 1
 secondscore = 7
 thirdscore = 8

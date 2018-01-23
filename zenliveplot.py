@@ -5,10 +5,10 @@ import time
 import datetime
 import config
 
-#style.use("ggplot")
+# style.use("ggplot")
 
 fig = plt.figure()
-fig.patch.set_facecolor('black')
+# fig.patch.set_facecolor('black')
 ax1 = fig.add_subplot(1, 1, 1)
 
 
@@ -43,16 +43,16 @@ def animate(i):
             yar2.append(y2)
 
     ax1.clear()
-    ax1.axhline(linewidth=2, color='yellow')
-    ax1.plot(xar1, yar1, label=config.topic1)
-    ax1.plot(xar2, yar2, label=config.topic2)
+    ax1.axhline(linewidth=2, color='black')
+    ax1.plot(xar1, yar1, label=config.topic1, color='red')
+    ax1.plot(xar2, yar2, label=config.topic2, color='blue')
 
     plt.xlabel("Last 500 tweets", fontsize=12)
     plt.ylabel("Sentiment Value", fontsize=12)
     plt.title(config.theme)
     plt.legend(loc='upper left')
 
-    plt.style.use("dark_background")
+    # plt.style.use("dark_background")
 
 
 ani = animation.FuncAnimation(fig, animate, interval=2000)
